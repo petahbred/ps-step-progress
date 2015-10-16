@@ -1,5 +1,5 @@
 {
-  "name": "test-element",
+  "name": "ps-step-progess",
   "version": "1.0.0",
   "authors": [
     "Anonymous <anonymous@example.com>"
@@ -11,9 +11,9 @@
     "polymer",
     "seed"
   ],
-  "main": "test-element.html",
+  "main": "ps-step-progress.html",
   "license": "http://polymer.github.io/LICENSE.txt",
-  "homepage": "https://github.com/<USERNAME>/test-element/",
+  "homepage": "https://github.com/<USERNAME>/ps-step-progress/",
   "ignore": [
     "/.*",
     "/test/",

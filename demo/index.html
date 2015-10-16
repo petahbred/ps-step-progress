@@ -14,23 +14,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
     <title>test-element Demo</title>
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-    <link rel="import" href="../test-element.html">
+    <link rel="import" href="../ps-step-progress.html">
+    <link rel="import" href="../../paper-input/paper-input.html">
   </head>
   <body>
-
-    <p>An example of <code>&lt;test-element&gt;</code>:</p>
-
-    <button>Say Something</button>
-
-    <test-element author='{"name": "Lord Meowser", "image": "http://placekitten.com/g/200/300"}' fancy>
-      <h2>Hello test-element</h2>
-    </test-element>
-
-    <script>
-      document.querySelector('button').addEventListener('click', function() {
-        alert(document.querySelector('test-element').sayHello('Hallo!'));
-      });
-    </script>
-
+    <template is="dom-bind">
+      <paper-input value={{step_no}}></paper-input>
+      <ps-step-progress current-step="{{step_no}}"></ps-step-progress>
+      <p>{{step_no}}</p>
+    </template>
   </body>
 </html>
