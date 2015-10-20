@@ -8,8 +8,9 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 <link rel="import" href="../polymer/polymer.html">
-
-
+<link rel="import" href="../font-roboto/roboto.html">
+<link rel="import" href="../paper-progress/paper-progress.html">
+<link rel="import" href="../paper-radio-button/paper-radio-button.html">
 
 <!--
 An element providing a solution to no problem in particular.
@@ -25,41 +26,52 @@ Example:
     :host {
       display: flex;
       align-items: center;
+      padding: 10px 70px;
+      font-family: 'Roboto', 'HelveticaNeue-Light', sans-serif;
     }
 
-    .spacer {
+    paper-progress {
       flex: 1;
-      border-bottom: 1px solid #000;
-      margin: 3px;
+      margin-top: 10px;
+      --paper-progress-active-color: var(--ps-step-progress-bar-color, #536DFE);
     }
 
-    .spacer.current, .spacer.completed {
-      border-bottom-color: #333;
+    paper-radio-button {
+      width: 16px;
+      margin-top: -4px;
+
+      display: flex;
+      flex-direction: column-reverse;
+      --paper-radio-button-unchecked-color: #E0E0E0;
+      --paper-radio-button-checked-color: var(--ps-step-progress-bar-color, #536DFE);
+      --paper-radio-button-checked-ink-color: var(--ps-set-progress-ink-color, #536DFE);
+      --paper-radio-button-unchecked-ink-color: var(--ps-set-progress-ink-color, #536DFE);
     }
 
-    .spacer.disabled {
-      border-bottom-color: #ccc;
+    .container {
+      width: 16px;
+      display: flex;
+      flex-direction: column;
+      margin-top: -14px;
     }
 
-    iron-icon {
-      flex: 1;
+    .label {
+      margin: 0;
+      margin-bottom: 10px;
+      padding: 0;
     }
 
-    iron-icon.current {
-      color: #47b52f;
-    }
-
-    iron-icon.disabled {
-      color: #ccc;
-    }
   </style>
   <template>
-    <template is="dom-repeat" items="{{steps}}">
-      <template is="dom-if" if={{index}}>
 
-        <span class$="{{_getStepClass(index)}}"></span>
+    <template is="dom-repeat" items="{{stepLabels}}">
+      <template is="dom-if" if={{index}}>
+        <paper-progress value="{{_setStep(index, currentStep)}}"></paper-progress>
       </template>
-      <iron-icon icon="{{item.icon}}" class$="{{_getStepClass(index, currentStep)}}"></iron-icon>
+      <div class="container">
+        <p class="label">{{item}}</p>
+        <paper-radio-button on-click=_checked checked="{{_isCompleted(index, currentStep)}}" index$={{index}}></paper-radio-button>
+      </div>
     </template>
   </template>
 
@@ -71,37 +83,70 @@ Example:
 
     is: 'ps-step-progress',
 
-
     properties: {
       currentStep: {
         type: Number,
         notify: true,
-        value: 0,
+        value: 0
       },
-      numberOfSteps: {
-        type: Number,
-        value: 2
+      labels: {
+        type: String,
+        value: '',
+        observer: '_labelsChanged'
       },
-      steps: {
+      stepLabels: {
         type: Array,
-        value: [{icon: 'shop'}, {icon: 'maps:local-shipping'}, {icon: 'payment'}, {icon: 'done-all'}],
-        readOnly: true
+        value: ['Pending', 'Accepted', 'Priority', 'Completed']
       }
     },
 
-    _getStepClass: function(i) {
-      var k = parseInt(this.currentStep, 10);
-      console.log(k);
-      if (isNaN(k)) {
-        k = 0;
+    _labelsChanged: function() {
+      if (this.labels) {
+        console.log(this.labels);
+        this.stepLabels = this.labels.split(',');
       }
-      if (i === k){
-        return 'spacer' + ' current';
+    },
+
+    _checked: function(e) {
+      var paperRadioButton = e.srcElement.parentElement.parentElement;
+      var isChecked = paperRadioButton.getAttribute('checked');
+      var index = +(paperRadioButton.getAttribute('index'));
+      if( isChecked === null ){
+        this.currentStep = --index;
+
+        if(this.currentStep < 0) {
+          this.currentStep = 0;
+        }
+        return;
       }
-      if (i < k) {
-        return 'spacer'+ ' completed';
+      this.currentStep = index;
+    },
+
+    _isCompleted: function(i) {
+      var currentStep = parseInt(this.currentStep, 10);
+      if (isNaN(currentStep)) {
+        currentStep = 0;
       }
-      return 'spacer' + ' disabled';
+      if (i === currentStep) {
+        return true;
+      }
+      if (i < currentStep) {
+        return true;
+      }
+    },
+
+    _setStep: function(i) {
+      var currentStep = parseInt(this.currentStep, 10);
+      if (isNaN(currentStep)) {
+        currentStep = 0;
+      }
+      if (i === currentStep){
+        return 100;
+      }
+      if (i < currentStep) {
+        return 100;
+      }
+      return 0;
     },
 
     // Element Lifecycle

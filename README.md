@@ -1,7 +1,9 @@
-# seed-element
+# ps-step-progress
 
-An element providing a starting point for your own reusable Polymer elements.
+Step progress bar.
 
+```
+<ps-step-progress current-step=2 labels="hello,world,foo,bar"></ps-step-progress>
 
 ## Dependencies
 
