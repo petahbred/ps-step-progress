@@ -6,6 +6,11 @@ Step progress bar.
 <ps-step-progress current-step=2 labels="hello,world,foo,bar"></ps-step-progress>
 ```
 
+## Sreenshots
+
+![ss1.png](ss1.png)
+![ss2.png](ss2.png)
+
 ## Dependencies
 
 Element dependencies are managed via [Bower](http://bower.io/). You can
