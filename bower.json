@@ -13,7 +13,7 @@
   ],
   "main": "ps-step-progress.html",
   "license": "http://polymer.github.io/LICENSE.txt",
-  "homepage": "https://github.com/<USERNAME>/ps-step-progress/",
+  "homepage": "https://github.com/psrivongse/ps-step-progress/",
   "ignore": [
     "/.*",
     "/test/",
