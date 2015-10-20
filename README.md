@@ -4,6 +4,7 @@ Step progress bar.
 
 ```
 <ps-step-progress current-step=2 labels="hello,world,foo,bar"></ps-step-progress>
+```
 
 ## Dependencies
 
