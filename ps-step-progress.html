@@ -70,7 +70,7 @@ Example:
       </template>
       <div class="container">
         <p class="label">{{item}}</p>
-        <paper-radio-button class="step" on-click="_checked" checked="{{_isCompleted(index, currentStep)}}" index$={{index}}></paper-radio-button>
+        <paper-radio-button on-change="_checked" checked="{{_isCompleted(index, currentStep)}}" index$={{index}}></paper-radio-button>
       </div>
     </template>
   </template>
@@ -106,8 +106,8 @@ Example:
       }
     },
 
-    _checked: function(e) {
-      var paperRadioButton = e.srcElement.parentElement.parentElement;
+    _checked: function(event) {
+      var paperRadioButton = event.path[0];
       var isChecked = paperRadioButton.getAttribute('checked');
       var index = +(paperRadioButton.getAttribute('index'));
       if( isChecked === null ){
