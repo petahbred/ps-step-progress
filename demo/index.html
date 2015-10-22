@@ -29,8 +29,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <paper-input value={{step_no}}></paper-input>
         <ps-step-progress current-step="{{step_no}}"></ps-step-progress>
       </div>
+    </template>
+    <template is="dom-bind">
       <div>
-        <h4>Selectable</h4>
+        <h4>Not Selectable</h4>
         <paper-input value={{step_no}}></paper-input>
         <ps-step-progress current-step="{{step_no}}" selectable="false"></ps-step-progress>
       </div>

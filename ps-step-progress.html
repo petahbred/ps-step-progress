@@ -146,16 +146,14 @@ Example:
 
     _checked: function(event) {
       var paperRadioButton = event.path[0];
-      if (this.interactive) {
-        var isChecked = paperRadioButton.getAttribute('checked');
-        var index = +(paperRadioButton.getAttribute('index'));
-        if( isChecked === null ){
-          this.currentStep = index;
-          paperRadioButton.setAttribute('checked', true);
-          return;
-        }
+      var isChecked = paperRadioButton.getAttribute('checked');
+      var index = +(paperRadioButton.getAttribute('index'));
+      if( isChecked === null ){
         this.currentStep = index;
+        paperRadioButton.setAttribute('checked', true);
+        return;
       }
+      this.currentStep = index;
     },
 
     _isCompleted: function(i) {
