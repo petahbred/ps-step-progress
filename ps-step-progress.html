@@ -95,6 +95,7 @@ Example:
         type: Object,
         reflectToAttribute: true,
         value: true,
+        notify: true,
         observer: '_selectable'
       },
       _interactivity: {
@@ -124,7 +125,6 @@ Example:
     },
 
     _selectable: function() {
-      console.log(this.selectable);
       if(this.selectable) {
         this._interactivity = 'interactive';
       } else {
