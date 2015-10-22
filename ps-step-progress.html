@@ -61,16 +61,23 @@ Example:
       padding: 0;
     }
 
+    .interactive {
+      pointer-events: all;
+    }
+
+    .not-interactive {
+      pointer-events: none;
+    }
+
   </style>
   <template>
-
-    <template is="dom-repeat" items="{{stepLabels}}">
+    <template id="repeat" is="dom-repeat" items="{{stepLabels}}">
       <template is="dom-if" if={{index}}>
         <paper-progress value="{{_setStep(index, currentStep)}}"></paper-progress>
       </template>
       <div class="container">
         <p class="label">{{item}}</p>
-        <paper-radio-button on-change="_checked" checked="{{_isCompleted(index, currentStep)}}" index$={{index}}></paper-radio-button>
+        <paper-radio-button class$="{{_interactivity}}" on-change="_checked" checked="{{_isCompleted(index, currentStep)}}" index$={{index}}></paper-radio-button>
       </div>
     </template>
   </template>
@@ -84,6 +91,16 @@ Example:
     is: 'ps-step-progress',
 
     properties: {
+      selectable: {
+        type: Object,
+        reflectToAttribute: true,
+        value: true,
+        observer: '_selectable'
+      },
+      _interactivity: {
+        type: String,
+        value: 'interactive'
+      },
       currentStep: {
         type: Number,
         notify: true,
@@ -106,6 +123,15 @@ Example:
       }
     },
 
+    _selectable: function() {
+      console.log(this.selectable);
+      if(this.selectable) {
+        this._interactivity = 'interactive';
+      } else {
+        this._interactivity = 'not-interactive';
+      }
+    },
+
     _selectLabel: function() {
       if(this.stepLabels){
         this.selectedLabel = this.stepLabels[+(this.currentStep)];
@@ -120,14 +146,16 @@ Example:
 
     _checked: function(event) {
       var paperRadioButton = event.path[0];
-      var isChecked = paperRadioButton.getAttribute('checked');
-      var index = +(paperRadioButton.getAttribute('index'));
-      if( isChecked === null ){
+      if (this.interactive) {
+        var isChecked = paperRadioButton.getAttribute('checked');
+        var index = +(paperRadioButton.getAttribute('index'));
+        if( isChecked === null ){
+          this.currentStep = index;
+          paperRadioButton.setAttribute('checked', true);
+          return;
+        }
         this.currentStep = index;
-        paperRadioButton.setAttribute('checked', true);
-        return;
       }
-      this.currentStep = index;
     },
 
     _isCompleted: function(i) {
